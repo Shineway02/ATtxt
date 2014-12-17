@@ -93,8 +93,18 @@ z_tranquatp_at01:--z_tranquatp_at01
 			set @n = @n + 1
 		end
 		if LEN(@memo)>0
+		begin
 			insert into @tmp(gno,pno,noa,memo)
 			values(CAST(@n as nvarchar),'3',@noa,@memo)
+			set @n = @n + 1
+		end
+		while CAST(@n as nvarchar)	<=7
+		begin
+			insert into @tmp(gno,pno,noa,memo)
+			values(CAST(@n as nvarchar),'3',@noa,'')
+			set @n = @n + 1
+		end
+		
 		fetch next from cursor_table
 		into @noa,@memo
 	end
