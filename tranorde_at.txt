@@ -92,7 +92,7 @@ tranorde_tranvcce:--tranorde_tranvcce
 				,mount=@mount
 				,memo=@memo
 			where ISNULL(isdel,0)=0 and edittime is null and ordeaccy=@ordeaccy and ordeno=@ordeno and ordenoq=@ordenoq
-		end
+		end 
 		else
 		begin
 			insert into tranvcce(ordeaccy,ordeno,ordenoq,datea,custno,cust
