@@ -102,7 +102,8 @@ tranorde_tranvcce:--tranorde_tranvcce
 			insert into tranvcce(ordeaccy,ordeno,ordenoq,datea,custno,cust
 				,straddrno,straddr,vocc,casetype,containerno1,containerno2
 				,stype,ucr,por,pod,product,mount,memo)		
-			select @ordeaccy,@ordeno,@ordenoq,@strdate,@custno,@cust
+			select @ordeaccy,@ordeno,@ordenoq,case when @stype='進口' then @ef else @etc end
+				,@custno,@cust
 				,@straddrno,@straddr,@vocc,@casetype,@containerno1,@containerno2
 				,@stype,@ucr,@por,@pod,@product,@mount,@memo
 		end
