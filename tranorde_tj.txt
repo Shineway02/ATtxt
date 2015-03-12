@@ -1,7 +1,7 @@
 tranorde_tranvcce:--tj   tranorde_tranvcce
 	SET QUOTED_IDENTIFIER OFF
 	declare @cmd nvarchar(max)
-	declare @t_noa nvarchar(20) = 'BB1040310001'
+	declare @t_noa nvarchar(20) = [1]
 	---------------------------------------------------------------------------------
 	declare @tmp table(
 		ordeaccy nvarchar(10),
