@@ -119,5 +119,5 @@ tranorde_tranvcce:--tj   tranorde_tranvcce
 	--tranorde已刪除,tranvcce未修改過的也一併刷除
 	delete tranvcce
 	from tranvcce a
-	left join view_tranordes b on a.ordeaccy=b.accy and a.ordeno=b.noa and a.ordenoq=b.noq
+	left join view_tranordet b on a.ordeaccy=b.accy and a.ordeno=b.noa and a.ordenoq=b.noq
 	where a.ordeno=@t_noa and ISNULL(isdel,0)=0 and a.edittime is null and b.noa is null;
