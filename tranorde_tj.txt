@@ -1,4 +1,4 @@
-tranorde_tranvcce:--tranorde_tranvcce
+tranorde_tranvcce:--tj   tranorde_tranvcce
 	SET QUOTED_IDENTIFIER OFF
 	declare @cmd nvarchar(max)
 	declare @t_noa nvarchar(20) = [1]
@@ -31,10 +31,10 @@ tranorde_tranvcce:--tranorde_tranvcce
 		,straddrno,straddr,vocc,casetype,containerno1,containerno2
 		,stype,ucr,por,pod,product,etc,freetime,mount,memo,ef)
 	select a.accy,a.noa,a.noq,isnull(b.strdate,''),b.custno,b.comp
-		,a.addrno,a.addr,b.vocc,b.casetype,a.containerno1,a.containerno2
+		,a.straddrno,a.straddr,b.vocc,b.casetype,a.containerno1,a.containerno2
 		,b.stype,b.trackno,b.port2,b.empdock2,b.product,b.etc,b.freetime
-		,b.mount,b.memo,b.ef
-	from view_tranordes a 
+		,a.mount,b.memo,b.ef
+	from view_tranordet a 
 	left join view_tranorde b on a.accy=b.accy and a.noa=b.noa
 	where a.noa = @t_noa
 	----------------------------------------------------------------------------------
@@ -119,5 +119,5 @@ tranorde_tranvcce:--tranorde_tranvcce
 	--tranorde已刪除,tranvcce未修改過的也一併刷除
 	delete tranvcce
 	from tranvcce a
-	left join view_tranordes b on a.ordeaccy=b.accy and a.ordeno=b.noa and a.ordenoq=b.noq
+	left join view_tranordet b on a.ordeaccy=b.accy and a.ordeno=b.noa and a.ordenoq=b.noq
 	where a.ordeno=@t_noa and ISNULL(isdel,0)=0 and a.edittime is null and b.noa is null;
