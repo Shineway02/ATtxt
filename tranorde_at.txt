@@ -18,6 +18,7 @@ tranorde_tranvcce:--tranorde_tranvcce
 		containerno2 nvarchar(20),
 		stype nvarchar(20),
 		ucr nvarchar(50),
+		vr nvarchar(20),
 		por nvarchar(20),
 		pod nvarchar(20),
 		product nvarchar(50),
@@ -29,10 +30,10 @@ tranorde_tranvcce:--tranorde_tranvcce
 	)
 	insert into @tmp(ordeaccy,ordeno,ordenoq,strdate,custno,cust
 		,straddrno,straddr,vocc,casetype,containerno1,containerno2
-		,stype,ucr,por,pod,product,etc,freetime,mount,memo,ef)
+		,stype,ucr,vr,por,pod,product,etc,freetime,mount,memo,ef)
 	select a.accy,a.noa,a.noq,isnull(b.strdate,''),b.custno,b.comp
 		,a.addrno,a.addr,b.vocc,b.casetype,a.containerno1,a.containerno2
-		,b.stype,b.trackno,b.port2,b.empdock2,b.product,b.etc,b.freetime
+		,b.stype,b.trackno,b.so,b.port2,b.empdock2,b.product,b.etc,b.freetime
 		,b.mount,b.memo,b.ef
 	from view_tranordes a 
 	left join view_tranorde b on a.accy=b.accy and a.noa=b.noa
@@ -53,6 +54,7 @@ tranorde_tranvcce:--tranorde_tranvcce
 	declare @containerno2 nvarchar(20)
 	declare @stype nvarchar(20)
 	declare @ucr nvarchar(50)
+	declare @vr nvarchar(20)
 	declare @por nvarchar(20)
 	declare @pod nvarchar(20)
 	declare @product nvarchar(50)
@@ -65,14 +67,14 @@ tranorde_tranvcce:--tranorde_tranvcce
 	declare cursor_table cursor for
 	select ordeaccy,ordeno,ordenoq,strdate,custno,cust
 		,straddrno,straddr,vocc,casetype,containerno1,containerno2
-		,stype,ucr,por,pod,product,etc,freetime,mount,memo
+		,stype,ucr,vr,por,pod,product,etc,freetime,mount,memo
 		,ef
 	from @tmp
 	open cursor_table
 	fetch next from cursor_table
 	into @ordeaccy,@ordeno,@ordenoq,@strdate,@custno,@cust
 		,@straddrno,@straddr,@vocc,@casetype,@containerno1,@containerno2
-		,@stype,@ucr,@por,@pod,@product,@etc,@freetime,@mount,@memo
+		,@stype,@ucr,@vr,@por,@pod,@product,@etc,@freetime,@mount,@memo
 		,@ef
 	while(@@FETCH_STATUS <> -1)
 	begin
@@ -90,6 +92,7 @@ tranorde_tranvcce:--tranorde_tranvcce
 				,containerno2 = @containerno2
 				,stype=@stype
 				,ucr=@ucr
+				,vr=@vr
 				,por=@por
 				,pod=@pod
 				,product=@product
@@ -101,17 +104,17 @@ tranorde_tranvcce:--tranorde_tranvcce
 		begin
 			insert into tranvcce(ordeaccy,ordeno,ordenoq,datea,custno,cust
 				,straddrno,straddr,vocc,casetype,containerno1,containerno2
-				,stype,ucr,por,pod,product,mount,memo)		
+				,stype,ucr,vr,por,pod,product,mount,memo)		
 			select @ordeaccy,@ordeno,@ordenoq,case when @stype='進口' then @ef else @etc end
 				,@custno,@cust
 				,@straddrno,@straddr,@vocc,@casetype,@containerno1,@containerno2
-				,@stype,@ucr,@por,@pod,@product,@mount,@memo
+				,@stype,@ucr,@vr,@por,@pod,@product,@mount,@memo
 		end
 
 		fetch next from cursor_table
 		into @ordeaccy,@ordeno,@ordenoq,@strdate,@custno,@cust
 		,@straddrno,@straddr,@vocc,@casetype,@containerno1,@containerno2
-		,@stype,@ucr,@por,@pod,@product,@etc,@freetime,@mount,@memo,@ef
+		,@stype,@ucr,@vr,@por,@pod,@product,@etc,@freetime,@mount,@memo,@ef
 	end
 	close cursor_table
 	deallocate cursor_table
